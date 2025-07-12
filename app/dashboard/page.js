@@ -96,7 +96,7 @@ export default function Dashboard() {
             <div className="space-y-4">
               <button
                 onClick={handleCreatePage}
-                className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
+                className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 cursor-pointer"
               >
                 <Plus className="h-5 w-5" />
                 <span>Create My Page</span>
@@ -104,7 +104,7 @@ export default function Dashboard() {
               
               <button
                 onClick={handleDiscoverPages}
-                className="w-full bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 px-6 py-3 rounded-xl font-semibold transition-colors duration-200 flex items-center justify-center space-x-2"
+                className="w-full bg-white hover:bg-gray-50 text-gray-700 border border-gray-200 px-6 py-3 rounded-xl font-semibold transition-colors duration-200 flex items-center justify-center space-x-2 cursor-pointer"
               >
                 <Globe className="h-5 w-5" />
                 <span>Discover Creators</span>
@@ -135,14 +135,14 @@ export default function Dashboard() {
             <div className="flex items-center space-x-4">
               <button
                 onClick={handleViewProfile}
-                className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors"
+                className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors cursor-pointer"
               >
                 <Eye className="h-4 w-4" />
                 <span>View Profile</span>
               </button>
               <button
                 onClick={handleEditProfile}
-                className="flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors"
+                className="flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer"
               >
                 <Edit className="h-4 w-4" />
                 <span>Edit Profile</span>
@@ -274,21 +274,21 @@ export default function Dashboard() {
               <div className="space-y-3">
                 <button
                   onClick={handleViewProfile}
-                  className="w-full flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors"
+                  className="w-full flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors cursor-pointer"
                 >
                   <Eye className="h-4 w-4" />
                   <span>View Public Profile</span>
                 </button>
                 <button
                   onClick={handleEditProfile}
-                  className="w-full flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors"
+                  className="w-full flex items-center space-x-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer"
                 >
                   <Edit className="h-4 w-4" />
                   <span>Edit Profile</span>
                 </button>
                 <button
                   onClick={handleDiscoverPages}
-                  className="w-full flex items-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+                  className="w-full flex items-center space-x-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors cursor-pointer"
                 >
                   <Globe className="h-4 w-4" />
                   <span>Discover Others</span>

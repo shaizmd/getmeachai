@@ -237,18 +237,18 @@ export default function UserProfilePage({ params }) {
             </div>
             
             {/* Name and Title */}
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">{profileData?.user?.title || pageData?.title || username}</h1>
-            <p className="text-xl text-gray-600 mb-4">{creatorContent.title}</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-2 px-4">{profileData?.user?.title || pageData?.title || username}</h1>
+            <p className="text-lg sm:text-xl text-gray-600 mb-4 px-4">{creatorContent.title}</p>
             
             {/* Location and Join Date */}
-            <div className="flex items-center justify-center space-x-6 text-sm text-gray-500 mb-6">
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-gray-500 mb-6 px-4">
               <div className="flex items-center space-x-1">
-                <MapPin className="h-4 w-4" />
-                <span>{creatorContent.location.city}, {creatorContent.location.country}</span>
+                <MapPin className="h-4 w-4 flex-shrink-0" />
+                <span className="truncate">{creatorContent.location.city}, {creatorContent.location.country}</span>
               </div>
               <div className="flex items-center space-x-1">
-                <Calendar className="h-4 w-4" />
-                <span>Joined {
+                <Calendar className="h-4 w-4 flex-shrink-0" />
+                <span className="truncate">Joined {
                   profileData?.user?.createdAt ? 
                     new Date(profileData.user.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 
                     pageData?.createdAt ? 
@@ -259,7 +259,7 @@ export default function UserProfilePage({ params }) {
             </div>
             
             {/* Stats */}
-            <div className="flex items-center justify-center space-x-8 text-sm">
+            <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 text-sm px-4">
               <div className="text-center">
                 <div className="flex items-center justify-center space-x-1 text-orange-600">
                   <Users className="h-4 w-4" />
@@ -294,23 +294,23 @@ export default function UserProfilePage({ params }) {
           <div className="lg:col-span-2 space-y-8">
             
             {/* About Section */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">About</h2>
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">About</h2>
               <div className="prose prose-gray max-w-none">
-                <p className="text-gray-600 leading-relaxed text-lg mb-6">
+                <p className="text-gray-600 leading-relaxed text-base sm:text-lg mb-4 sm:mb-6">
                   {creatorContent.description}
                 </p>
-                <div className="text-gray-600 leading-relaxed text-lg whitespace-pre-line">
+                <div className="text-gray-600 leading-relaxed text-base sm:text-lg whitespace-pre-line">
                   {creatorContent.about}
                 </div>
               </div>
               
               {/* Skills/Tech Stack */}
-              <div className="mt-8">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Skills & Expertise</h3>
-                <div className="flex flex-wrap gap-3">
+              <div className="mt-6 sm:mt-8">
+                <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Skills & Expertise</h3>
+                <div className="flex flex-wrap gap-2 sm:gap-3">
                   {(creatorContent.skills || []).map((skill, index) => (
-                    <span key={index} className="bg-gradient-to-r from-orange-100 to-orange-200 text-orange-800 px-4 py-2 rounded-full text-sm font-medium">
+                    <span key={index} className="bg-gradient-to-r from-orange-100 to-orange-200 text-orange-800 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-medium">
                       {skill}
                     </span>
                   ))}
@@ -319,16 +319,16 @@ export default function UserProfilePage({ params }) {
             </div>
 
             {/* Recent Activity Section */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Recent Updates</h2>
-              <div className="space-y-6">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Recent Updates</h2>
+              <div className="space-y-4 sm:space-y-6">
                 {(creatorContent.recentUpdates || []).map((update, index) => (
-                  <div key={index} className="flex items-start space-x-4">
+                  <div key={index} className="flex items-start space-x-3 sm:space-x-4">
                     <div className={`w-3 h-3 bg-gradient-to-r ${update.color} rounded-full mt-2 flex-shrink-0`}></div>
-                    <div className="flex-1">
-                      <p className="text-gray-900 font-semibold text-lg">{update.title}</p>
-                      <p className="text-gray-600 mt-1">{update.description}</p>
-                      <p className="text-sm text-gray-500 mt-2">
+                    <div className="flex-1 min-w-0">
+                      <p className="text-gray-900 font-semibold text-base sm:text-lg truncate sm:whitespace-normal">{update.title}</p>
+                      <p className="text-gray-600 mt-1 text-sm sm:text-base">{update.description}</p>
+                      <p className="text-xs sm:text-sm text-gray-500 mt-2">
                         {(() => {
                           if (update.date instanceof Date) {
                             return update.date.toLocaleDateString('en-US', { 
@@ -358,13 +358,13 @@ export default function UserProfilePage({ params }) {
             </div>
 
             {/* Links Section */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6">Links</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">Links</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {(creatorContent.links || []).map((link, index) => (
-                  <a key={index} href={link.url} className="flex items-center space-x-3 p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200">
-                    <LinkIcon className="h-5 w-5 text-gray-600" />
-                    <span className="text-gray-900 font-medium">{link.name}</span>
+                  <a key={index} href={link.url} className="flex items-center space-x-3 p-3 sm:p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors duration-200 cursor-pointer">
+                    <LinkIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-600 flex-shrink-0" />
+                    <span className="text-gray-900 font-medium text-sm sm:text-base truncate">{link.name}</span>
                   </a>
                 ))}
               </div>
@@ -376,23 +376,23 @@ export default function UserProfilePage({ params }) {
             
             {/* Support Card - Only show if not own page */}
             {!isOwnPage && (
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Buy me a chai ☕</h2>
-                <button className="text-gray-400 hover:text-orange-500 transition-colors duration-200">
-                  <Share2 className="h-6 w-6" />
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+              <div className="flex items-center justify-between mb-4 sm:mb-6">
+                <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Buy me a chai ☕</h2>
+                <button className="text-gray-400 hover:text-orange-500 transition-colors duration-200 cursor-pointer p-1">
+                  <Share2 className="h-5 w-5 sm:h-6 sm:w-6" />
                 </button>
               </div>
               
               {/* Amount Selection */}
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-4">Choose an amount</label>
-                <div className="grid grid-cols-3 gap-3 mb-4">
+              <div className="mb-6 sm:mb-8">
+                <label className="block text-sm font-medium text-gray-700 mb-3 sm:mb-4">Choose an amount</label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 mb-3 sm:mb-4">
                   {predefinedAmounts.map((amount) => (
                     <button
                       key={amount}
                       onClick={() => setSelectedAmount(amount)}
-                      className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
+                      className={`px-3 py-2 sm:px-4 sm:py-3 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
                         selectedAmount === amount
                           ? 'bg-gradient-to-r from-orange-500 to-pink-500 text-white shadow-lg transform scale-105'
                           : 'bg-gray-50 text-gray-700 hover:bg-gray-100 border border-gray-200'
@@ -407,19 +407,19 @@ export default function UserProfilePage({ params }) {
                   placeholder="Enter custom amount"
                   value={customAmount}
                   onChange={(e) => setCustomAmount(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm"
                 />
               </div>
 
               {/* Message */}
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-3">Add a message (optional)</label>
+              <div className="mb-6 sm:mb-8">
+                <label className="block text-sm font-medium text-gray-700 mb-2 sm:mb-3">Add a message (optional)</label>
                 <textarea
                   placeholder="Say something nice..."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm resize-none"
-                  rows="4"
+                  className="w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent text-sm resize-none"
+                  rows="3"
                 />
               </div>
 
@@ -429,33 +429,33 @@ export default function UserProfilePage({ params }) {
                   amount={customAmount ? parseFloat(customAmount) : parseFloat(selectedAmount.replace('$', ''))}
                   message={message}
                   creatorName={username}
-                  customClassName="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-6 py-4 rounded-xl text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 cursor-pointer"
+                  customClassName="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-4 py-3 sm:px-6 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 cursor-pointer"
                 />
               ) : (
-                <div className="space-y-4">
+                <div className="space-y-3 sm:space-y-4">
                   <button 
                     onClick={() => setShowAuthWarning(true)}
-                    className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-6 py-4 rounded-xl text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 cursor-pointer"
+                    className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-4 py-3 sm:px-6 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2 cursor-pointer"
                   >
-                    <Coffee className="h-5 w-5" />
+                    <Coffee className="h-4 w-4 sm:h-5 sm:w-5" />
                     <span>Support Creator</span>
                   </button>
                   
                   {showAuthWarning && (
-                    <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 text-center">
-                      <p className="text-orange-800 text-sm mb-3">
+                    <div className="bg-orange-50 border border-orange-200 rounded-lg p-3 sm:p-4 text-center">
+                      <p className="text-orange-800 text-sm mb-2 sm:mb-3">
                         🔒 Please sign in to support this creator
                       </p>
                       <div className="space-y-2">
                         <button 
                           onClick={() => router.push('/signin')}
-                          className="w-full bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                          className="w-full bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer"
                         >
                           Sign In
                         </button>
                         <button 
                           onClick={() => router.push('/signup')}
-                          className="w-full bg-white hover:bg-gray-50 text-orange-500 border border-orange-500 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                          className="w-full bg-white hover:bg-gray-50 text-orange-500 border border-orange-500 px-3 py-2 sm:px-4 sm:py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer"
                         >
                           Create Account
                         </button>
@@ -465,7 +465,7 @@ export default function UserProfilePage({ params }) {
                 </div>
               )}
 
-              <p className="text-xs text-gray-500 text-center mt-4">
+              <p className="text-xs text-gray-500 text-center mt-3 sm:mt-4">
                 🔒 Secure payment powered by <span className='font-bold'>Stripe</span>
               </p>
             </div>
@@ -473,13 +473,13 @@ export default function UserProfilePage({ params }) {
             
             {/* Manage Page Button - Only show if own page */}
             {isOwnPage && (
-              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
+              <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
                 <div className="text-center">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">This is your page</h2>
-                  <p className="text-gray-600 mb-6">Manage your creator page and track your progress</p>
+                  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-3 sm:mb-4">This is your page</h2>
+                  <p className="text-gray-600 mb-4 sm:mb-6 text-sm sm:text-base">Manage your creator page and track your progress</p>
                   <button 
                     onClick={() => router.push('/dashboard')}
-                    className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-6 py-4 rounded-xl text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                    className="w-full bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-4 py-3 sm:px-6 sm:py-4 rounded-xl text-base sm:text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl cursor-pointer"
                   >
                     Go to Dashboard
                   </button>
@@ -488,61 +488,61 @@ export default function UserProfilePage({ params }) {
             )}
 
             {/* Recent Supporters */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Recent Supporters</h3>
-              <div className="space-y-4">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Recent Supporters</h3>
+              <div className="space-y-3 sm:space-y-4">
                 {profileData?.recentSupporters?.length > 0 ? (
                   profileData.recentSupporters.map((supporter, index) => (
-                    <div key={index} className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-pink-400 rounded-full flex items-center justify-center text-white text-lg font-bold">
+                    <div key={index} className="flex items-center space-x-3 sm:space-x-4">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-r from-orange-400 to-pink-400 rounded-full flex items-center justify-center text-white text-sm sm:text-lg font-bold flex-shrink-0">
                         {supporter.name.charAt(0).toUpperCase()}
                       </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-semibold text-gray-900">{supporter.name}</p>
-                        <p className="text-xs text-gray-500">${supporter.amount} • {new Date(supporter.date).toLocaleDateString()}</p>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm sm:text-base font-semibold text-gray-900 truncate">{supporter.name}</p>
+                        <p className="text-xs sm:text-sm text-gray-500">${supporter.amount} • {new Date(supporter.date).toLocaleDateString()}</p>
                         {supporter.message && (
-                          <p className="text-xs text-gray-600 mt-1">"{supporter.message}"</p>
+                          <p className="text-xs sm:text-sm text-gray-600 mt-1 truncate sm:whitespace-normal">"{supporter.message}"</p>
                         )}
                       </div>
                     </div>
                   ))
                 ) : (
-                  <div className="text-center py-8">
-                    <Coffee className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                    <p className="text-gray-500 text-sm">No supporters yet</p>
-                    <p className="text-gray-400 text-xs mt-1">Be the first to support this creator!</p>
+                  <div className="text-center py-6 sm:py-8">
+                    <Coffee className="h-10 w-10 sm:h-12 sm:w-12 text-gray-300 mx-auto mb-2 sm:mb-3" />
+                    <p className="text-gray-500 text-sm sm:text-base">No supporters yet</p>
+                    <p className="text-gray-400 text-xs sm:text-sm mt-1">Be the first to support this creator!</p>
                   </div>
                 )}
               </div>
             </div>
 
             {/* Current Goal */}
-            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
-              <h3 className="text-xl font-bold text-gray-900 mb-6">Current Goal</h3>
-              <div className="space-y-4">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-6 lg:p-8">
+              <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Current Goal</h3>
+              <div className="space-y-3 sm:space-y-4">
                 <div className="flex justify-between items-center">
-                  <span className="text-lg font-medium text-gray-900">{creatorContent.goalTitle}</span>
-                  <span className="text-lg font-bold text-gray-900">
+                  <span className="text-base sm:text-lg font-medium text-gray-900 truncate pr-2">{creatorContent.goalTitle}</span>
+                  <span className="text-base sm:text-lg font-bold text-gray-900 flex-shrink-0">
                     ${pageData?.goal?.currentAmount || profileData?.goal?.current || 0} / ${pageData?.goal?.targetAmount || profileData?.goal?.target || 1000}
                   </span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-3">
+                <div className="w-full bg-gray-200 rounded-full h-2.5 sm:h-3">
                   <div 
-                    className="bg-gradient-to-r from-orange-500 to-pink-500 h-3 rounded-full transition-all duration-300" 
+                    className="bg-gradient-to-r from-orange-500 to-pink-500 h-2.5 sm:h-3 rounded-full transition-all duration-300" 
                     style={{ 
                       width: `${Math.min(100, ((pageData?.goal?.currentAmount || profileData?.goal?.current || 0) / (pageData?.goal?.targetAmount || profileData?.goal?.target || 1000)) * 100)}%` 
                     }}
                   ></div>
                 </div>
                 <div className="flex justify-between items-center">
-                  <p className="text-sm text-gray-600">
+                  <p className="text-xs sm:text-sm text-gray-600">
                     {Math.round(((pageData?.goal?.currentAmount || profileData?.goal?.current || 0) / (pageData?.goal?.targetAmount || profileData?.goal?.target || 1000)) * 100)}% complete
                   </p>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-xs sm:text-sm font-medium text-gray-900">
                     ${Math.max(0, (pageData?.goal?.targetAmount || profileData?.goal?.target || 1000) - (pageData?.goal?.currentAmount || profileData?.goal?.current || 0))} to go
                   </p>
                 </div>
-                <p className="text-sm text-gray-600 mt-3">
+                <p className="text-xs sm:text-sm text-gray-600 mt-2 sm:mt-3">
                   {creatorContent.goalDescription}
                 </p>
               </div>

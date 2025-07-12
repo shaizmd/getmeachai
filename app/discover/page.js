@@ -149,7 +149,7 @@ export default function Discover() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category === 'All' ? '' : category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
                   (selectedCategory === category || (selectedCategory === '' && category === 'All'))
                     ? 'bg-orange-500 text-white'
                     : 'bg-white text-gray-700 hover:bg-gray-100'
@@ -163,13 +163,13 @@ export default function Discover() {
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setViewMode('grid')}
-              className={`p-2 rounded-lg ${viewMode === 'grid' ? 'bg-orange-500 text-white' : 'bg-white text-gray-700'}`}
+              className={`p-2 rounded-lg cursor-pointer transition-colors ${viewMode === 'grid' ? 'bg-orange-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}`}
             >
               <Grid className="h-5 w-5" />
             </button>
             <button
               onClick={() => setViewMode('list')}
-              className={`p-2 rounded-lg ${viewMode === 'list' ? 'bg-orange-500 text-white' : 'bg-white text-gray-700'}`}
+              className={`p-2 rounded-lg cursor-pointer transition-colors ${viewMode === 'list' ? 'bg-orange-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}`}
             >
               <List className="h-5 w-5" />
             </button>
@@ -221,7 +221,7 @@ export default function Discover() {
                 key={page.username}
                 onClick={() => handlePageClick(page.username)}
                 className={`bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:scale-105 ${
-                  viewMode === 'list' ? 'flex items-center p-6' : 'overflow-hidden'
+                  viewMode === 'list' ? 'flex flex-col sm:flex-row items-start sm:items-center p-4 sm:p-6' : 'overflow-hidden'
                 }`}
               >
                 {viewMode === 'grid' ? (
@@ -304,46 +304,46 @@ export default function Discover() {
                 ) : (
                   <>
                     {/* List View */}
-                    <div className="flex-shrink-0 mr-6">
+                    <div className="flex-shrink-0 mb-4 sm:mb-0 sm:mr-6">
                       <img
                         src={page.profileImage || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face'}
                         alt={page.title}
-                        className="w-16 h-16 rounded-full"
+                        className="w-16 h-16 rounded-full mx-auto sm:mx-0"
                         loading="lazy"
                       />
                     </div>
                     
-                    <div className="flex-1">
-                      <div className="flex items-center justify-between mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">{page.title}</h3>
-                        <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium">
+                    <div className="flex-1 text-center sm:text-left">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-1 sm:mb-0">{page.title}</h3>
+                        <span className="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-medium mx-auto sm:mx-0 w-fit">
                           {categoryDisplayMap[page.category] || page.category}
                         </span>
                       </div>
                       
-                      <p className="text-gray-600 mb-3">{page.description}</p>
+                      <p className="text-gray-600 mb-3 text-sm sm:text-base">{page.description}</p>
                       
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-4 text-sm text-gray-500">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 text-sm text-gray-500 space-y-1 sm:space-y-0">
                           <span>@{page.username}</span>
                           {page.location && (
-                            <div className="flex items-center space-x-1">
+                            <div className="flex items-center justify-center sm:justify-start space-x-1">
                               <MapPin className="h-4 w-4" />
                               <span>{page.location.city}, {page.location.country}</span>
                             </div>
                           )}
-                          <div className="flex items-center space-x-1">
+                          <div className="flex items-center justify-center sm:justify-start space-x-1">
                             <Star className="h-4 w-4 text-yellow-500" />
                             <span>4.8</span>
                           </div>
                         </div>
                         
-                        <div className="flex items-center space-x-2">
-                          <button className="flex items-center space-x-2 text-orange-500 hover:text-orange-600 transition-colors">
+                        <div className="flex items-center justify-center sm:justify-end space-x-2">
+                          <button className="flex items-center space-x-2 text-orange-500 hover:text-orange-600 transition-colors cursor-pointer">
                             <Heart className="h-4 w-4" />
                             <span className="text-sm">Support</span>
                           </button>
-                          <button className="flex items-center space-x-2 text-gray-500 hover:text-gray-700 transition-colors">
+                          <button className="flex items-center space-x-2 text-gray-500 hover:text-gray-700 transition-colors cursor-pointer">
                             <Eye className="h-4 w-4" />
                             <span className="text-sm">View</span>
                           </button>

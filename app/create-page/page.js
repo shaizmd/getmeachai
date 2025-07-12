@@ -444,7 +444,7 @@ export default function CreatePage() {
               <button
                 type="button"
                 onClick={() => router.push('/dashboard')}
-                className="px-6 py-3 text-gray-600 hover:text-gray-800 transition-colors"
+                className="px-6 py-3 text-gray-600 hover:text-gray-800 transition-colors cursor-pointer"
               >
                 Cancel
               </button>
@@ -452,7 +452,7 @@ export default function CreatePage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
               >
                 {loading ? (
                   <>
