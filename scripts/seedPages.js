@@ -8,24 +8,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 dotenv.config({ path: join(__dirname, '..', '.env.local') });
 
-// Import the Page model
+// Import the Page model and database connection
 import Page from '../models/Page.js';
-
-// MongoDB connection
-const connectDB = async () => {
-  try {
-    const MONGODB_URI = process.env.MONGODB_URI;
-    if (!MONGODB_URI) {
-      throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
-    }
-    
-    await mongoose.connect(MONGODB_URI);
-    console.log('MongoDB connected successfully');
-  } catch (error) {
-    console.error('MongoDB connection error:', error);
-    process.exit(1);
-  }
-};
+import dbConnect from '../lib/mongodb.js';
 
 // Creator profiles data
 const creatorProfiles = [
@@ -333,22 +318,22 @@ Your support helps me continue my research, create educational content, and deve
 
 const seedDatabase = async () => {
   try {
-    await connectDB();
+    await dbConnect();
     
     // Clear existing data
     await Page.deleteMany({});
-    console.log('Cleared existing page data');
+    // console.log('Cleared existing page data');
     
     // Insert new data
     const insertedPages = await Page.insertMany(creatorProfiles);
-    console.log(`Successfully inserted ${insertedPages.length} creator pages`);
+    // console.log(`Successfully inserted ${insertedPages.length} creator pages`);
     
     // Display summary
     insertedPages.forEach(page => {
-      console.log(`✓ ${page.username} - ${page.title}`);
+      // console.log(`✓ ${page.username} - ${page.title}`);
     });
     
-    console.log('\nDatabase seeding completed successfully!');
+    // console.log('\nDatabase seeding completed successfully!');
     process.exit(0);
   } catch (error) {
     console.error('Error seeding database:', error);

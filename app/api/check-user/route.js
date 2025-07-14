@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/connectdb';
+import dbConnect from '@/lib/mongodb';
 import Page from '@/models/Page';
 
 export async function GET(request) {
   try {
-    await connectDB();
+    await dbConnect();
     
     // Get username from query parameters
     const { searchParams } = new URL(request.url);

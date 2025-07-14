@@ -94,7 +94,7 @@ PaymentSchema.methods.markAsPaid = async function(paymentIntentId) {
       userPage.goal.currentAmount = currentAmount;
       await userPage.save();
       
-      console.log(`Updated goal for ${this.to_user}: ${currentAmount}/${userPage.goal.targetAmount}`);
+      // console.log(`Updated goal for ${this.to_user}: ${currentAmount}/${userPage.goal.targetAmount}`);
     }
   } catch (error) {
     console.error('Error updating goal amount:', error);

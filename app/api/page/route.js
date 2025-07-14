@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/connectdb';
+import dbConnect from '@/lib/mongodb';
 import Page from '@/models/Page';
 
 export async function GET(request) {
   try {
-    await connectDB();
+    await dbConnect();
     
     const { searchParams } = new URL(request.url);
     const username = searchParams.get('username');
@@ -39,7 +39,7 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    await connectDB();
+    await dbConnect();
     
     const pageData = await request.json();
     
@@ -87,7 +87,7 @@ export async function POST(request) {
 
 export async function PUT(request) {
   try {
-    await connectDB();
+    await dbConnect();
     
     const { searchParams } = new URL(request.url);
     const username = searchParams.get('username');

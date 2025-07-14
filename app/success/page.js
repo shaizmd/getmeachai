@@ -2,8 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { CheckCircle, Coffee, Heart, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 export default function Success() {
+  useDocumentTitle('Payment Successful - Thank You for Your Support');
+  
   const [sessionId, setSessionId] = useState('');
   const [donationData, setDonationData] = useState(null);
 

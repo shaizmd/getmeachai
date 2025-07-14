@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import connectDB from '@/lib/connectdb';
+import dbConnect from '@/lib/mongodb';
 import Page from '@/models/Page';
 import Payment from '@/models/Payment';
 
 export async function GET() {
   try {
-    await connectDB();
+    await dbConnect();
     
     // Get all pages, sorted by creation date (newest first)
     const pages = await Page.find({}).sort({ createdAt: -1 }).limit(20);

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import ChaiButton from '@/components/ChaiButton';
 import { formatUsername, isValidUsername } from '../../lib/userUtils';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 export default function UserProfilePage({ params }) {
   const router = useRouter();
@@ -18,6 +19,13 @@ export default function UserProfilePage({ params }) {
   const [pageData, setPageData] = useState(null);
   const [loading, setLoading] = useState(true);
   const { data: session, status } = useSession();
+
+  // Dynamic title based on page data
+  useDocumentTitle(
+    pageData ? `${pageData.title} (@${username}) - Support This Creator` : 
+    username ? `@${username} - Creator Profile` : 
+    'Creator Profile'
+  );
 
   // Show authentication warning if not logged in
   const [showAuthWarning, setShowAuthWarning] = useState(false);

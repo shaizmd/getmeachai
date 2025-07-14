@@ -3,8 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Save, Upload, User, MapPin, Globe, Target, Star, FileText, Camera, Link2, Hash, Heart } from 'lucide-react';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 export default function EditPage() {
+  useDocumentTitle('Edit Your Page - Update Your Creator Profile');
+  
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);

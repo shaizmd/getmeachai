@@ -7,8 +7,11 @@ import { useRouter } from 'next/navigation';
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { formatUsername } from '../../lib/userUtils';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 function SignupPage() {
+  useDocumentTitle('Sign Up - Join the Creator Community');
+  
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',

@@ -6,8 +6,11 @@ import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 function SignInPage() {
+  useDocumentTitle('Sign In - Access Your Creator Account');
+  
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',

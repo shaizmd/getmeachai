@@ -2,8 +2,11 @@
 import React from 'react';
 import { XCircle, Coffee, Heart, ArrowLeft, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 export default function Cancel() {
+  useDocumentTitle('Payment Canceled - Support Creators Another Time');
+  
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-pink-50 to-purple-50 flex items-center justify-center px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">

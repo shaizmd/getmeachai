@@ -8,11 +8,15 @@ import SessionWrapper from "@/components/SessionWrapper";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "swap",
+  preload: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "swap",
+  preload: false, // Only preload the main font to reduce warnings
 });
 
 export const metadata = {
@@ -27,6 +31,12 @@ export const metadata = {
   other: {
     'X-UA-Compatible': 'IE=edge',
   },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({ children }) {

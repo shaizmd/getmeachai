@@ -3,8 +3,11 @@ import React, { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Save, Upload, User, MapPin, Globe, Target, Star, FileText, Camera, Link2, Hash, Heart } from 'lucide-react';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 export default function CreatePage() {
+  useDocumentTitle('Create Your Page - Start Your Creator Journey');
+  
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(false);

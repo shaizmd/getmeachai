@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Search, Users, MapPin, Star, Heart, Coffee, Eye, Filter, Grid, List, RefreshCw } from 'lucide-react';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 export default function Discover() {
   const router = useRouter();
@@ -13,6 +14,21 @@ export default function Discover() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [viewMode, setViewMode] = useState('grid');
+
+  // Dynamic title based on search/filter state
+  const getPageTitle = () => {
+    if (searchTerm && selectedCategory && selectedCategory !== 'All') {
+      return `"${searchTerm}" in ${selectedCategory} - Discover Creators`;
+    } else if (searchTerm) {
+      return `"${searchTerm}" - Search Results`;
+    } else if (selectedCategory && selectedCategory !== 'All') {
+      return `${selectedCategory} Creators - Discover`;
+    } else {
+      return 'Discover Creators - Find Amazing People to Support';
+    }
+  };
+
+  useDocumentTitle(getPageTitle(), [searchTerm, selectedCategory]);
 
   const categories = [
     'All', 'Technology', 'Art & Design', 'Music', 'Gaming', 'Education', 'Health & Fitness',

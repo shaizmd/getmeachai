@@ -3,8 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { User, Edit, Eye, BarChart3, Users, Coffee, Star, Settings, Plus, Globe } from 'lucide-react';
+import useDocumentTitle from '@/hooks/useDocumentTitle';
 
 export default function Dashboard() {
+  useDocumentTitle('Dashboard - Manage Your Creator Profile');
+  
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);

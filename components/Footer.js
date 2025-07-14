@@ -1,38 +1,39 @@
 "use client";
 import React from 'react';
 import { Heart, Facebook, Instagram, Linkedin, Mail, MapPin, Phone, ExternalLink } from 'lucide-react';
-import Logo from './Logo'; 
+import Logo from './Logo';
 
 
 const Footer = () => {
+  const currentYear = new Date().getFullYear();
   return (
     <footer className="bg-gradient-to-br from-gray-50 to-gray-100 border-t border-gray-200">
       {/* Main Footer Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          
+
           {/* Brand Section */}
           <div className="lg:col-span-1">
-              <div className="flex items-center">
-                        <div className="flex-shrink-0 flex items-center group cursor-pointer">
-                          <div className="w-16 h-16 transition-transform duration-200 hover:scale-110 mr-3">
-                            <Logo />
-                          </div>
-                          <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-                            GetMeAChai
-                          </span>
-                        </div>
-                      </div>
+            <div className="flex items-center">
+              <div className="flex-shrink-0 flex items-center group cursor-pointer">
+                <div className="w-16 h-16 transition-transform duration-200 hover:scale-110 mr-3">
+                  <Logo />
+                </div>
+                <span className="text-xl font-bold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
+                  GetMeAChai
+                </span>
+              </div>
+            </div>
             <p className="text-gray-600 text-sm mb-6 leading-relaxed">
-              Empowering creators to build sustainable income through community support. 
+              Empowering creators to build sustainable income through community support.
               Share your passion, get funded, and grow your creative journey.
             </p>
-            
+
             {/* Social Media Links */}
             <div className="flex space-x-4">
               <a href="#" className="text-gray-900 hover:text-gray-700 transition-colors duration-200 transform hover:scale-110">
                 <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                 </svg>
               </a>
               <a href="#" className="text-blue-600 hover:text-blue-700 transition-colors duration-200 transform hover:scale-110">
@@ -124,7 +125,7 @@ const Footer = () => {
           {/* Contact & Newsletter */}
           <div>
             <h3 className="text-gray-900 font-semibold mb-4">Stay Connected</h3>
-            
+
             {/* Contact Info */}
             <div className="space-y-3 mb-6">
               <div className="flex items-center text-gray-600 text-sm">
@@ -186,7 +187,7 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="md:flex md:items-center md:justify-between">
             <div className="flex items-center space-x-4 text-sm">
-              <span>© 2024 GetMeAChai. All rights reserved.</span>
+              <span>© {currentYear} GetMeAChai. All rights reserved.</span>
               <div className="hidden md:flex items-center space-x-1">
                 <span>Made with</span>
                 <Heart className="h-4 w-4 text-red-500" fill="currentColor" />

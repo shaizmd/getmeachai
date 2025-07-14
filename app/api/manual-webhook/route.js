@@ -15,20 +15,20 @@ export async function POST(request) {
     
     await dbConnect();
     
-    console.log('Looking for payment with session ID:', sessionId);
+    // console.log('Looking for payment with session ID:', sessionId);
     
     // Find the payment record by session ID
     const payment = await Payment.findOne({ stripeSessionId: sessionId });
     
     if (!payment) {
-      console.log('Payment not found for session:', sessionId);
+      // console.log('Payment not found for session:', sessionId);
       return NextResponse.json(
         { error: 'Payment not found' },
         { status: 404 }
       );
     }
     
-    console.log('Found payment:', payment._id, 'current status:', payment.status);
+    // console.log('Found payment:', payment._id, 'current status:', payment.status);
     
     if (payment.status === 'pending') {
       // Mark the payment as paid

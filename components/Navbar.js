@@ -120,10 +120,10 @@ const Navbar = () => {
                 Dashboard
               </Link>
               <Link 
-                href="/pricing" 
+                href="/admin/payments" 
                 className="text-gray-700 hover:text-orange-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 hover:bg-orange-50 cursor-pointer"
               >
-                Pricing
+                Admin
               </Link>
               <Link 
                 href="/resources" 
@@ -237,10 +237,10 @@ const Navbar = () => {
               Dashboard
             </Link>
             <Link 
-              href="/pricing" 
+              href="/admin/payments" 
               className="text-gray-700 hover:text-orange-500 block px-3 py-2 rounded-md text-base font-medium hover:bg-orange-50 transition-colors duration-200 cursor-pointer"
             >
-              Pricing
+              Admin
             </Link>
             <Link 
               href="/resources" 

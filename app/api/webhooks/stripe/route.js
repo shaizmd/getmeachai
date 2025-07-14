@@ -23,7 +23,7 @@ export async function POST(req) {
   await dbConnect()
   
   try {
-    console.log(`🔔 Received webhook: ${event.type}`)
+    // console.log(`🔔 Received webhook: ${event.type}`)
     
     switch (event.type) {
       // Essential payment events
@@ -63,7 +63,7 @@ export async function POST(req) {
         break
       
       default:
-        console.log(`⚠️ Unhandled event type: ${event.type}`)
+        // console.log(`⚠️ Unhandled event type: ${event.type}`)
         break
     }
     
@@ -76,7 +76,7 @@ export async function POST(req) {
 
 async function handleCheckoutSessionCompleted(session) {
   try {
-    console.log('Handling checkout session completed:', session.id);
+    // console.log('Handling checkout session completed:', session.id);
     
     // Find the payment record by session ID
     const payment = await Payment.findOne({ stripeSessionId: session.id });
@@ -86,12 +86,12 @@ async function handleCheckoutSessionCompleted(session) {
       return;
     }
     
-    console.log('Found payment:', payment._id, 'current status:', payment.status);
+    // console.log('Found payment:', payment._id, 'current status:', payment.status);
     
     // Update payment status
     await payment.markAsPaid(session.payment_intent);
     
-    console.log('Payment marked as paid:', payment._id);
+    // console.log('Payment marked as paid:', payment._id);
     
   } catch (error) {
     console.error('Error handling checkout session completed:', error);
@@ -138,7 +138,7 @@ async function handlePaymentIntentFailed(paymentIntent) {
 
 async function handleInvoicePaymentSucceeded(invoice) {
   try {
-    console.log('🔔 Invoice payment succeeded:', invoice.id)
+    // console.log('🔔 Invoice payment succeeded:', invoice.id)
     // Handle successful subscription payments here
     // This would be used for monthly supporter subscriptions
     
@@ -149,7 +149,7 @@ async function handleInvoicePaymentSucceeded(invoice) {
 
 async function handleInvoicePaymentFailed(invoice) {
   try {
-    console.log('❌ Invoice payment failed:', invoice.id)
+    // console.log('❌ Invoice payment failed:', invoice.id)
     // Handle failed subscription payments here
     // You might want to notify the user or retry payment
     
@@ -160,7 +160,7 @@ async function handleInvoicePaymentFailed(invoice) {
 
 async function handleSubscriptionCreated(subscription) {
   try {
-    console.log('🆕 Subscription created:', subscription.id)
+    // console.log('🆕 Subscription created:', subscription.id)
     // Handle new subscription creation here
     
   } catch (error) {
@@ -170,7 +170,7 @@ async function handleSubscriptionCreated(subscription) {
 
 async function handleSubscriptionUpdated(subscription) {
   try {
-    console.log('🔄 Subscription updated:', subscription.id)
+    // console.log('🔄 Subscription updated:', subscription.id)
     // Handle subscription updates here
     
   } catch (error) {
@@ -180,7 +180,7 @@ async function handleSubscriptionUpdated(subscription) {
 
 async function handleSubscriptionDeleted(subscription) {
   try {
-    console.log('❌ Subscription deleted:', subscription.id)
+    // console.log('❌ Subscription deleted:', subscription.id)
     // Handle subscription cancellation here
     
   } catch (error) {
@@ -208,7 +208,7 @@ async function handleChargeDisputeCreated(dispute) {
 
 async function handleChargeRefunded(charge) {
   try {
-    console.log('💰 Charge refunded:', charge.id)
+    // console.log('💰 Charge refunded:', charge.id)
     
     // Find payment by charge ID
     const payment = await Payment.findOne({ stripePaymentIntentId: charge.payment_intent })
@@ -225,7 +225,7 @@ async function handleChargeRefunded(charge) {
       refundAmount: charge.amount_refunded
     })
     
-    console.log('Payment marked as refunded:', payment._id)
+    // console.log('Payment marked as refunded:', payment._id)
     
   } catch (error) {
     console.error('Error handling charge refunded:', error)
