@@ -68,7 +68,9 @@ export async function POST(req) {
       to_user: creatorName,
       amount: amount,
       trans_id: sessionId,
-      message: message
+      message: message,
+      stripeSessionId: sessionId, // Add this for webhook lookup
+      email: session.customer_details?.email || null // Store email if available
     });
 
     // Save to database

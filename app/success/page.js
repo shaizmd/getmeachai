@@ -36,8 +36,6 @@ export default function Success() {
   // Function to save payment to database
   const savePaymentToDatabase = async (sessionId) => {
     try {
-      console.log('Saving payment to database with session ID:', sessionId);
-      
       const response = await fetch('/api/save-payment', {
         method: 'POST',
         headers: {
@@ -48,9 +46,7 @@ export default function Success() {
 
       const result = await response.json();
       
-      if (response.ok) {
-        console.log('Payment saved successfully:', result);
-      } else {
+      if (!response.ok) {
         console.error('Failed to save payment:', result.error);
       }
     } catch (error) {

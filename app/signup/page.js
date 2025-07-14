@@ -99,7 +99,6 @@ function SignupPage() {
           position: "top-right",
           autoClose: 3000,
         });
-        // console.log('GitHub sign in successful');
       } else if (result?.error) {
         toast.error('GitHub sign in failed. Please try again.', {
           position: "top-right",
@@ -107,7 +106,6 @@ function SignupPage() {
         });
       }
     } catch (error) {
-      // console.error('GitHub sign in error:', error);
       toast.error('An error occurred during GitHub sign in.', {
         position: "top-right",
         autoClose: 4000,

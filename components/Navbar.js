@@ -20,6 +20,19 @@ const Navbar = () => {
   // Event Handlers
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
+  const closeProfile = () => setIsProfileOpen(false);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (isProfileOpen && !event.target.closest('.profile-dropdown')) {
+        closeProfile();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isProfileOpen]);
 
   // Loading State - Prevent hydration mismatch
   if (!isMounted) {
@@ -140,7 +153,7 @@ const Navbar = () => {
             </button>
 
             {/* Profile/Login Section */}
-            <div className="relative">
+            <div className="relative profile-dropdown">
               <button
                 onClick={toggleProfile}
                 className="flex items-center space-x-2 text-gray-700 hover:text-orange-500 px-3 py-2 rounded-full hover:bg-gray-50 transition-colors duration-200 min-w-0 cursor-pointer"
@@ -160,7 +173,10 @@ const Navbar = () => {
                         Signed in as {session.user?.name}
                       </div>
                       <button 
-                        onClick={() => signOut()}
+                        onClick={() => {
+                          closeProfile();
+                          signOut();
+                        }}
                         className="w-full flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
                       >
                         <LogOut className="h-4 w-4" />
@@ -171,13 +187,15 @@ const Navbar = () => {
                     <>
                       <Link 
                         href="/signin" 
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                        onClick={closeProfile}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
                       >
                         Sign In
                       </Link>
                       <Link 
                         href="/signup" 
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+                        onClick={closeProfile}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors duration-200 cursor-pointer"
                       >
                         Sign Up
                       </Link>

@@ -127,10 +127,8 @@ export default function UserProfilePage({ params }) {
       const result = await response.json();
       
       if (result.exists) {
-        console.log('User found in database:', result.user);
         return true;
       } else {
-        console.log('User not found in database');
         return false;
       }
     } catch (error) {

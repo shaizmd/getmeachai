@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { Search, Users, MapPin, Star, Heart, Coffee, Eye, Filter, Grid, List } from 'lucide-react';
+import { Search, Users, MapPin, Star, Heart, Coffee, Eye, Filter, Grid, List, RefreshCw } from 'lucide-react';
 
 export default function Discover() {
   const router = useRouter();
@@ -53,6 +53,11 @@ export default function Discover() {
 
   useEffect(() => {
     fetchPages();
+    
+    // Auto-refresh every 30 seconds to keep goal amounts up-to-date
+    const interval = setInterval(fetchPages, 30000);
+    
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -61,6 +66,7 @@ export default function Discover() {
 
   const fetchPages = async () => {
     try {
+      setLoading(true);
       const response = await fetch('/api/pages');
       if (response.ok) {
         const data = await response.json();
@@ -161,6 +167,14 @@ export default function Discover() {
           </div>
           
           <div className="flex items-center space-x-2">
+            <button
+              onClick={fetchPages}
+              disabled={loading}
+              className="p-2 rounded-lg bg-white text-gray-700 hover:bg-gray-100 disabled:opacity-50 cursor-pointer transition-colors"
+              title="Refresh goal amounts"
+            >
+              <RefreshCw className={`h-5 w-5 ${loading ? 'animate-spin' : ''}`} />
+            </button>
             <button
               onClick={() => setViewMode('grid')}
               className={`p-2 rounded-lg cursor-pointer transition-colors ${viewMode === 'grid' ? 'bg-orange-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}`}

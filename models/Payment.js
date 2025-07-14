@@ -46,13 +46,13 @@ const PaymentSchema = new mongoose.Schema(
     // Stripe session ID
     stripeSessionId: {
       type: String,
-      sparse: true
+      // Removed sparse: true to avoid duplicate index warning
     },
     
     // Stripe payment intent ID
     stripePaymentIntentId: {
       type: String,
-      sparse: true
+      // Removed sparse: true to avoid duplicate index warning
     },
     
     // Supporter email (optional)
@@ -68,12 +68,39 @@ const PaymentSchema = new mongoose.Schema(
 )
 
 // Helper methods
-PaymentSchema.methods.markAsPaid = function(paymentIntentId) {
+PaymentSchema.methods.markAsPaid = async function(paymentIntentId) {
   this.status = 'paid';
   if (paymentIntentId) {
     this.stripePaymentIntentId = paymentIntentId;
   }
-  return this.save();
+  
+  // Save the payment first
+  await this.save();
+  
+  // Update the creator's goal amount
+  try {
+    // Import Page model dynamically to avoid circular dependency
+    const Page = mongoose.models.Page || require('./Page').default;
+    const userPage = await Page.findOne({ username: this.to_user });
+    
+    if (userPage && userPage.goal) {
+      // Calculate total amount for this user from all paid payments
+      const totalAmount = await this.constructor.aggregate([
+        { $match: { to_user: this.to_user, status: 'paid' } },
+        { $group: { _id: null, total: { $sum: '$amount' } } }
+      ]);
+      
+      const currentAmount = totalAmount.length > 0 ? totalAmount[0].total : 0;
+      userPage.goal.currentAmount = currentAmount;
+      await userPage.save();
+      
+      console.log(`Updated goal for ${this.to_user}: ${currentAmount}/${userPage.goal.targetAmount}`);
+    }
+  } catch (error) {
+    console.error('Error updating goal amount:', error);
+  }
+  
+  return this;
 };
 
 PaymentSchema.methods.markAsFailed = function() {
