@@ -4,7 +4,7 @@
 
 GetMeAChai is a full-stack Next.js application that allows creators to set up personalized pages where supporters can make donations ("buy them a chai") to help fund their creative projects and goals.
 
-![GetMeAChai Banner](https://images.unsplash.com/photo-1559056199-641a0ac8b55e?w=1200&h=400&fit=crop&crop=center)
+![GetMeAChai Banner](public/img1.png)
 
 ## ✨ Features
 
