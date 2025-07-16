@@ -103,12 +103,12 @@ Create a `.env.local` file in the root directory:
 
 ```bash
 # Database
-MONGODB_URI=mongodb://localhost:27017/getmeachai
+MONGODB_URI=your URI
 # or for MongoDB Atlas:
-# MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/getmeachai
+# MONGODB_URI= your URI
 
 # NextAuth Configuration
-NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_URL=your URL
 NEXTAUTH_SECRET=your-secret-key-here
 
 # Google OAuth (Optional)
