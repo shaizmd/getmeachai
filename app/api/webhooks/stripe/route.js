@@ -4,16 +4,20 @@ import Stripe from 'stripe'
 import dbConnect from '@/lib/mongodb'
 import Payment from '@/models/Payment'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
-
 export async function POST(req) {
   const body = await req.text()
   const sig = req.headers.get('stripe-signature')
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY
+  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
   
   let event
   
   try {
+    if (!stripeSecretKey || !endpointSecret) {
+      throw new Error('Missing Stripe webhook configuration')
+    }
+
+    const stripe = new Stripe(stripeSecretKey)
     event = stripe.webhooks.constructEvent(body, sig, endpointSecret)
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message)
