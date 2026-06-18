@@ -2,12 +2,17 @@
 import { loadStripe } from '@stripe/stripe-js'
 import { Heart } from 'lucide-react'
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
-
 export default function ChaiButton({ amount, message, creatorName, customClassName }) {
   const handleClick = async () => {
     try {
-      const stripe = await stripePromise
+      const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+
+      if (!publishableKey) {
+        alert('Stripe is not configured yet. Add NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY and try again.')
+        return
+      }
+
+      const stripe = await loadStripe(publishableKey)
 
       if (!stripe) {
         alert('Stripe is not configured correctly. Please check the publishable key and try again.')
