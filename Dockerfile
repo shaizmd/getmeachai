@@ -14,6 +14,7 @@ COPY . .
 
 # Build Next.js app
 RUN npm run build
+RUN rm -rf .next/cache
 
 # Stage 2: Runtime
 FROM node:20-alpine
