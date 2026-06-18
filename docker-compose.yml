@@ -1,6 +1,6 @@
 services:
   app:
-    build: .
+    image: shaizcodez/getmeachai:latest
     ports:
       - "3000:3000"
     env_file:
@@ -8,9 +8,3 @@ services:
     environment:
       - NODE_ENV=production
     restart: unless-stopped
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
