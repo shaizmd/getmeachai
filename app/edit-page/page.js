@@ -2,8 +2,18 @@
 import React, { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Save, Upload, User, MapPin, Globe, Target, Star, FileText, Camera, Link2, Hash, Heart } from 'lucide-react';
+import { Save, Upload, User, Target, FileText, Camera, Link2 } from 'lucide-react';
 import useDocumentTitle from '@/hooks/useDocumentTitle';
+import {
+  categories,
+  categoryMapping,
+  reverseCategoryMapping,
+  emptyLinks,
+  parseLocationInput,
+  formatLocationInput,
+  serializeLinks,
+  deserializeLinks,
+} from '@/lib/pageForm';
 
 export default function EditPage() {
   useDocumentTitle('Edit Your Page - Update Your Creator Profile');
@@ -12,6 +22,10 @@ export default function EditPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [uploadingImages, setUploadingImages] = useState({
+    profileImage: false,
+    coverImage: false,
+  });
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -21,14 +35,7 @@ export default function EditPage() {
     location: '',
     profileImage: '',
     coverImage: '',
-    links: {
-      website: '',
-      twitter: '',
-      instagram: '',
-      youtube: '',
-      github: '',
-      linkedin: ''
-    },
+    links: { ...emptyLinks },
     goal: {
       title: '',
       description: '',
@@ -36,11 +43,6 @@ export default function EditPage() {
       currentAmount: 0
     }
   });
-
-  const categories = [
-    'Technology', 'Art & Design', 'Music', 'Gaming', 'Education', 'Health & Fitness',
-    'Food & Cooking', 'Travel', 'Business', 'Sports', 'Photography', 'Writing', 'Other'
-  ];
 
   useEffect(() => {
     if (status === 'loading') return;
@@ -65,20 +67,13 @@ export default function EditPage() {
         setFormData({
           title: page.title || '',
           description: page.description || '',
-          category: page.category || '',
+          category: reverseCategoryMapping[page.category] || 'Other',
           about: page.about || '',
           skills: Array.isArray(page.skills) ? page.skills.join(', ') : '',
-          location: page.location || '',
+          location: formatLocationInput(page.location),
           profileImage: page.profileImage || '',
           coverImage: page.coverImage || '',
-          links: {
-            website: page.links?.website || '',
-            twitter: page.links?.twitter || '',
-            instagram: page.links?.instagram || '',
-            youtube: page.links?.youtube || '',
-            github: page.links?.github || '',
-            linkedin: page.links?.linkedin || ''
-          },
+          links: deserializeLinks(page.links),
           goal: {
             title: page.goal?.title || '',
             description: page.goal?.description || '',
@@ -94,6 +89,41 @@ export default function EditPage() {
       console.error('Error loading page data:', error);
     } finally {
       setInitialLoading(false);
+    }
+  };
+
+  const handleImageUpload = async (file, fieldName) => {
+    if (!file) {
+      return;
+    }
+
+    setUploadingImages(prev => ({ ...prev, [fieldName]: true }));
+
+    try {
+      const uploadFormData = new FormData();
+      uploadFormData.append('file', file);
+      uploadFormData.append('folder', fieldName === 'profileImage' ? 'profiles' : 'covers');
+
+      const response = await fetch('/api/uploads/images', {
+        method: 'POST',
+        body: uploadFormData,
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to upload image');
+      }
+
+      setFormData(prev => ({
+        ...prev,
+        [fieldName]: data.url,
+      }));
+    } catch (error) {
+      console.error(`Error uploading ${fieldName}:`, error);
+      alert(error.message || 'Failed to upload image. Please try again.');
+    } finally {
+      setUploadingImages(prev => ({ ...prev, [fieldName]: false }));
     }
   };
 
@@ -125,11 +155,20 @@ export default function EditPage() {
 
     setLoading(true);
     try {
+      if (!formData.profileImage || !formData.coverImage) {
+        alert('Please upload both a profile image and a cover image.');
+        setLoading(false);
+        return;
+      }
+
       const username = session.user.email?.split('@')[0];
       const pageData = {
         username,
         ...formData,
-        skills: formData.skills.split(',').map(skill => skill.trim()).filter(Boolean)
+        category: categoryMapping[formData.category] || 'other',
+        skills: formData.skills.split(',').map(skill => skill.trim()).filter(Boolean),
+        location: parseLocationInput(formData.location),
+        links: serializeLinks(formData.links),
       };
 
       const response = await fetch('/api/page', {
@@ -249,15 +288,21 @@ export default function EditPage() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Profile Image URL</label>
-                  <input
-                    type="url"
-                    name="profileImage"
-                    value={formData.profileImage}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    placeholder="https://example.com/profile.jpg"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Profile Image</label>
+                  <label className="flex items-center justify-center gap-2 w-full px-4 py-3 border border-dashed border-orange-300 rounded-lg bg-orange-50 hover:bg-orange-100 transition-colors cursor-pointer">
+                    <Upload className="h-4 w-4 text-orange-600" />
+                    <span className="text-sm text-orange-700">
+                      {uploadingImages.profileImage ? 'Uploading...' : 'Choose profile image'}
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp,image/gif"
+                      className="hidden"
+                      onChange={(e) => handleImageUpload(e.target.files?.[0], 'profileImage')}
+                      disabled={uploadingImages.profileImage}
+                    />
+                  </label>
+                  <p className="mt-2 text-xs text-gray-500">Accepted: JPG, PNG, WEBP, GIF. Max size 5MB.</p>
                   {formData.profileImage && (
                     <img 
                       src={formData.profileImage} 
@@ -268,15 +313,21 @@ export default function EditPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Cover Image URL</label>
-                  <input
-                    type="url"
-                    name="coverImage"
-                    value={formData.coverImage}
-                    onChange={handleInputChange}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
-                    placeholder="https://example.com/cover.jpg"
-                  />
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Cover Image</label>
+                  <label className="flex items-center justify-center gap-2 w-full px-4 py-3 border border-dashed border-orange-300 rounded-lg bg-orange-50 hover:bg-orange-100 transition-colors cursor-pointer">
+                    <Upload className="h-4 w-4 text-orange-600" />
+                    <span className="text-sm text-orange-700">
+                      {uploadingImages.coverImage ? 'Uploading...' : 'Choose cover image'}
+                    </span>
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg,image/webp,image/gif"
+                      className="hidden"
+                      onChange={(e) => handleImageUpload(e.target.files?.[0], 'coverImage')}
+                      disabled={uploadingImages.coverImage}
+                    />
+                  </label>
+                  <p className="mt-2 text-xs text-gray-500">Accepted: JPG, PNG, WEBP, GIF. Max size 5MB.</p>
                   {formData.coverImage && (
                     <img 
                       src={formData.coverImage} 

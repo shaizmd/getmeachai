@@ -90,18 +90,18 @@ export async function PUT(request) {
     await dbConnect();
     
     const { searchParams } = new URL(request.url);
-    const username = searchParams.get('username');
+    const urlUsername = searchParams.get('username');
+    const updateData = await request.json();
+    const username = urlUsername || updateData.username;
     
     if (!username) {
       return NextResponse.json({ error: 'Username is required' }, { status: 400 });
     }
-    
-    const updateData = await request.json();
-    
+
     // Update the page data
     const updatedPage = await Page.findOneAndUpdate(
       { username: username.toLowerCase() },
-      { ...updateData, updatedAt: new Date() },
+      { ...updateData, username: username.toLowerCase(), updatedAt: new Date() },
       { new: true, upsert: true }
     );
     
