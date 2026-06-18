@@ -3,6 +3,9 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+
 # Copy package files
 COPY package.json package-lock.json* yarn.lock* bun.lockb* ./
 
@@ -20,6 +23,9 @@ RUN rm -rf .next/cache
 FROM node:20-alpine
 
 WORKDIR /app
+
+ARG NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+ENV NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=$NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
 
 # Install production dependencies only
 COPY package.json package-lock.json* yarn.lock* bun.lockb* ./

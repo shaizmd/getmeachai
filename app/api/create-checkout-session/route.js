@@ -16,6 +16,12 @@ export async function POST(req) {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     const { amount, message, creatorName } = await req.json();
+    const requestUrl = new URL(req.url);
+    const baseUrl =
+      process.env.NEXT_PUBLIC_APP_URL ||
+      process.env.NEXTAUTH_URL ||
+      req.headers.get('origin') ||
+      `${requestUrl.protocol}//${requestUrl.host}`;
 
     const session = await getServerSession(authOptions);
 
@@ -53,18 +59,14 @@ export async function POST(req) {
         ],
 
         mode: 'payment',
-
         success_url:
-          `${req.headers.get('origin')}` +
-          `/success?session_id={CHECKOUT_SESSION_ID}` +
+          `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}` +
           `&amount=${amount}` +
           `&creator=${encodeURIComponent(
             creatorName || 'Creator'
           )}` +
           `&message=${encodeURIComponent(message || '')}`,
-
-        cancel_url:
-          `${req.headers.get('origin')}/cancel`,
+        cancel_url: `${baseUrl}/cancel`,
 
         metadata: {
           creator: creatorName || 'Unknown',
