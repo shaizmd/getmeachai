@@ -93,7 +93,7 @@ export default function Dashboard() {
             
             <h1 className="text-2xl font-bold text-gray-900 mb-2">Welcome to GetMeAChai!</h1>
             <p className="text-gray-600 mb-8">
-              You don't have a creator page yet. Would you like to create one or explore existing creators?
+              You don&apos;t have a creator page yet. Would you like to create one or explore existing creators?
             </p>
             
             <div className="space-y-4">

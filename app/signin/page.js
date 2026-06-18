@@ -280,7 +280,7 @@ function SignInPage() {
             {/* Sign Up Link */}
             <div className="text-center mt-6">
               <p className="text-gray-600">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/signup" className="text-orange-500 hover:text-orange-600 font-medium transition-colors duration-200">
                   Sign up
                 </Link>

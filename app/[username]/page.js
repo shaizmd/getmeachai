@@ -507,7 +507,9 @@ export default function UserProfilePage({ params }) {
                         <p className="text-sm sm:text-base font-semibold text-gray-900 truncate">{supporter.name}</p>
                         <p className="text-xs sm:text-sm text-gray-500">${supporter.amount} • {new Date(supporter.date).toLocaleDateString()}</p>
                         {supporter.message && (
-                          <p className="text-xs sm:text-sm text-gray-600 mt-1 truncate sm:whitespace-normal">"{supporter.message}"</p>
+                          <p className="text-xs sm:text-sm text-gray-600 mt-1 truncate sm:whitespace-normal">
+                            &ldquo;{supporter.message}&rdquo;
+                          </p>
                         )}
                       </div>
                     </div>

@@ -180,7 +180,7 @@ export default function AdminPayments() {
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
                 <p className="text-sm text-blue-800">
                   <strong>Note:</strong> You can only access the admin panel for your own creator page. 
-                  If you don't have a page yet, please create one first.
+                  If you don&apos;t have a page yet, please create one first.
                 </p>
               </div>
               <button

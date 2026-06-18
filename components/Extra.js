@@ -1,4 +1,5 @@
 import React from 'react'
+import { Check } from 'lucide-react';
 
 function Extra() {
     const pricingPlans = [

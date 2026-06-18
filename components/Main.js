@@ -316,7 +316,7 @@ const MainContent = () => {
               </div>
               
               <blockquote className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
-                "{testimonials[currentTestimonial].content}"
+                &ldquo;{testimonials[currentTestimonial].content}&rdquo;
               </blockquote>
               
               <div className="flex items-center">
