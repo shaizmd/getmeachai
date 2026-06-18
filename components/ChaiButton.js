@@ -6,9 +6,14 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 export default function ChaiButton({ amount, message, creatorName, customClassName }) {
   const handleClick = async () => {
-    const stripe = await stripePromise
-
     try {
+      const stripe = await stripePromise
+
+      if (!stripe) {
+        alert('Stripe is not configured correctly. Please check the publishable key and try again.')
+        return
+      }
+
       const res = await fetch('/api/create-checkout-session', {
         method: 'POST',
         headers: {
@@ -22,6 +27,12 @@ export default function ChaiButton({ amount, message, creatorName, customClassNa
       })
 
       const data = await res.json()
+
+      if (!res.ok) {
+        console.error('Checkout session error:', data)
+        alert(data.error || 'Unable to start checkout. Please try again.')
+        return
+      }
       
       if (data.error) {
         console.error('Error:', data.error)
