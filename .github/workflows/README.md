@@ -7,6 +7,7 @@ This project now includes two GitHub Actions workflows:
 - `pull-request-check.yml`
   Runs on pull requests to `main` and makes sure the app still builds.
   I have made changes here to check the github actions ci/cd pipeline and make sure it works as expected.
+  I have made changes here to check the github actions ci/cd pipeline and make sure it works as expected.
 
 ### Required GitHub repository secrets
 
