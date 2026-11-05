@@ -5,7 +5,10 @@ import Payment from '@/models/Payment';
 
 export async function POST(req) {
   try {
-    // Initialize Stripe INSIDE handler
+    if (!process.env.STRIPE_SECRET_KEY) {
+      throw new Error('Missing STRIPE_SECRET_KEY');
+    }
+
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     const { sessionId } = await req.json();
@@ -17,42 +20,53 @@ export async function POST(req) {
       );
     }
 
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+    if (session.payment_status !== 'paid') {
+      return NextResponse.json(
+        { error: 'Payment has not been completed' },
+        { status: 400 }
+      );
+    }
+
     await dbConnect();
 
-    const existingPayment = await Payment.findOne({ trans_id: sessionId });
+    let payment = await Payment.findOne({
+      $or: [
+        { trans_id: sessionId },
+        { stripeSessionId: sessionId },
+      ],
+    });
 
-    if (existingPayment) {
+    if (payment) {
+      if (payment.status !== 'paid') {
+        await payment.markAsPaid(session.payment_intent);
+      }
+
       return NextResponse.json({
         message: 'Payment already recorded',
-        payment: existingPayment
+        payment: {
+          id: payment._id,
+          status: payment.status,
+          amount: payment.amount,
+          to_user: payment.to_user,
+        },
       });
     }
-
-    if (sessionId.startsWith('test_')) {
-      const payment = new Payment({
-        name: 'Test User',
-        to_user: 'testcreator',
-        amount: 5.0,
-        trans_id: sessionId,
-        message: 'Test payment'
-      });
-
-      await payment.save();
-
-      return NextResponse.json({
-        message: 'Test payment saved successfully',
-        payment
-      });
-    }
-
-    const session = await stripe.checkout.sessions.retrieve(sessionId);
 
     const amount = session.amount_total / 100;
 
     const creatorName =
       session.metadata.creator ||
       session.metadata.creatorName ||
-      'Unknown';
+      null;
+
+    if (!creatorName) {
+      return NextResponse.json(
+        { error: 'Payment is missing creator information' },
+        { status: 400 }
+      );
+    }
 
     const message = session.metadata.message || '';
 
@@ -65,21 +79,28 @@ export async function POST(req) {
         session.customer_details.email.split('@')[0];
     }
 
-    const payment = new Payment({
+    payment = new Payment({
       name: customerName,
-      to_user: creatorName,
+      to_user: creatorName.toLowerCase(),
       amount,
       trans_id: sessionId,
       message,
       stripeSessionId: sessionId,
-      email: session.customer_details?.email || null
+      email: session.customer_details?.email || null,
+      status: 'pending',
     });
 
     await payment.save();
+    await payment.markAsPaid(session.payment_intent);
 
     return NextResponse.json({
       message: 'Payment saved successfully',
-      payment
+      payment: {
+        id: payment._id,
+        status: payment.status,
+        amount: payment.amount,
+        to_user: payment.to_user,
+      },
     });
 
   } catch (error) {

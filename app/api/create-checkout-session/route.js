@@ -13,9 +13,39 @@ export async function POST(req) {
       throw new Error('Missing STRIPE_SECRET_KEY');
     }
 
+    const session = await getServerSession(authOptions);
+
+    if (!session?.user?.email) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
     const { amount, message, creatorName } = await req.json();
+    const numericAmount = Number(amount);
+
+    if (!Number.isFinite(numericAmount) || numericAmount < 0.5) {
+      return NextResponse.json(
+        { error: 'Amount must be at least $0.50' },
+        { status: 400 }
+      );
+    }
+
+    if (typeof creatorName !== 'string' || !creatorName.trim()) {
+      return NextResponse.json(
+        { error: 'Creator name is required' },
+        { status: 400 }
+      );
+    }
+
+    if (message && (typeof message !== 'string' || message.length > 500)) {
+      return NextResponse.json(
+        { error: 'Message must be 500 characters or fewer' },
+        { status: 400 }
+      );
+    }
+
+    const normalizedCreatorName = creatorName.trim().toLowerCase();
     const requestUrl = new URL(req.url);
     const baseUrl =
       process.env.NEXT_PUBLIC_APP_URL ||
@@ -23,14 +53,12 @@ export async function POST(req) {
       req.headers.get('origin') ||
       `${requestUrl.protocol}//${requestUrl.host}`;
 
-    const session = await getServerSession(authOptions);
-
     const supporterName =
       session?.user?.name ||
       session?.user?.email?.split('@')[0] ||
       'Anonymous';
 
-    const unitAmount = Math.round(amount * 100);
+    const unitAmount = Math.round(numericAmount * 100);
 
     await dbConnect();
 
@@ -44,7 +72,7 @@ export async function POST(req) {
               currency: 'usd',
 
               product_data: {
-                name: `Chai for ${creatorName || 'Creator'}`,
+                name: `Chai for ${normalizedCreatorName}`,
 
                 description:
                   message ||
@@ -61,15 +89,15 @@ export async function POST(req) {
         mode: 'payment',
         success_url:
           `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}` +
-          `&amount=${amount}` +
+          `&amount=${numericAmount}` +
           `&creator=${encodeURIComponent(
-            creatorName || 'Creator'
+            normalizedCreatorName
           )}` +
           `&message=${encodeURIComponent(message || '')}`,
         cancel_url: `${baseUrl}/cancel`,
 
         metadata: {
-          creator: creatorName || 'Unknown',
+          creator: normalizedCreatorName,
           message: message || '',
           supporterName,
         },
@@ -78,9 +106,9 @@ export async function POST(req) {
     const payment = new Payment({
       name: supporterName,
 
-      to_user: creatorName.toLowerCase(),
+      to_user: normalizedCreatorName,
 
-      amount,
+      amount: numericAmount,
 
       trans_id: checkoutSession.id,
 
